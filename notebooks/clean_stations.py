@@ -2,7 +2,6 @@
 # # Cleaning  `Stations.txt`
 
 import pandas as pd
-import re
 
 # %%
 f = open(r'data/raw/stations.txt', 'r')
@@ -11,23 +10,25 @@ f.close()
 data = stations[4:19377]
 
 # %%
-pattern = re.compile(r" (\d+) (\d+[A-Z]{0,2}){0,1} +?([\(\)A-Z0-9'\.@\-\/&\[\]\:#" +
-                     '"' + r"]+ {1,3})+ {0,}?(\d{4}) +?((\d{4})|(\.\.)) +?(-\d+\.\d+) +?(\d+\.\d+)")
+# pull out all the spaces from the column header line to find delimiting index
+column_splits = stations[3]
+column_spaces = [i for i, char in enumerate(column_splits) if char == ' ']
+column_spaces = [0] + column_spaces + \
+    [len(column_splits) - 1]  # add start and end
 
-matches = []
-for line in data:
-    matches.append(pattern.split(line))
+fields = stations[2]
+field_names = []
 
-num_matches = [len(i) for i in matches]
-
-match_stats = pd.DataFrame({'matches': matches, 'num_matches': num_matches})
-match_stats['num_matches'].value_counts()
-
-# %%
-no_match = match_stats.loc[match_stats['num_matches'] == 1]
-if len(no_match) != 0:
-    print(data[nomatch.sample().index[0]])
-else:
-    print('all matches found')
+# field names
+for i in range(len(column_spaces) - 1):
+    field_names.append(fields[column_spaces[i]: column_spaces[i+1]].strip())
 
 # %%
+parsed_data = {}
+for i, field in enumerate(field_names):
+    parsed_data[field] = []
+    for row in data:
+        parsed_data[field].append(
+            row[column_spaces[i]: column_spaces[i+1]].strip())
+
+df = pd.DataFrame(parsed_data)
