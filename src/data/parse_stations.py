@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 STATIONS_RAW_FILE = r'data/raw/stations.txt'
 DEFAULT_OUTPUT = r'data/interim/stations.csv'
 
+
 def parse_stations(output_file=DEFAULT_OUTPUT):
     logger.info(f'Opening {STATIONS_RAW_FILE} for reading')
     f = open(STATIONS_RAW_FILE, 'r')
@@ -45,7 +46,7 @@ def parse_stations(output_file=DEFAULT_OUTPUT):
     logger.info('parsed dataset')
     logger.info(f'\n{df.head()}')
 
-    df.to_csv(output_file)
+    df.to_csv(output_file, index=False)
     logger.info(f'saving parsed dataset to: {output_file}')
 
 
