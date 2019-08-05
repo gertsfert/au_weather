@@ -1,6 +1,7 @@
 # %% [markdown]
 # # Stations and Measurements
-# Aim is to see if the `stations` dataset can be combined with the `weatherAus` dataset
+# Aim is to see if the `stations` dataset can be combined with the `weatherAus`
+# dataset
 # Will allow for location analysis among other lovely things
 
 import pandas as pd
@@ -104,8 +105,9 @@ for i, row in lookup.iterrows():
 
             # find most popular district
             most_popular_district = matches['Dist'].value_counts().index[0]
-            averaged = matches.loc[matches['Dist'] ==
-                                   most_popular_district, ['Lat', 'Lon']].mean()
+            averaged = matches.loc[
+                matches['Dist'] == most_popular_district,
+                ['Lat', 'Lon']].mean()
 
             row['is_matched'] = True
             row['match_type'] = 'avg_token_match'
@@ -121,4 +123,7 @@ lookup['match_type'].value_counts(dropna=False)
 
 # %% Add coordinates back in
 weather = weather.merge(
-    lookup[['location', 'lat', 'lng']], left_on='Location', right_on='location')
+    lookup[
+        ['location', 'lat', 'lng']],
+    left_on='Location',
+    right_on='location')

@@ -5,6 +5,8 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
 from parse_stations import parse_stations
+from merge_coordinates import merge_coordinates
+
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
@@ -20,7 +22,7 @@ def main(input_filepath, output_filepath):
     logger.info('making final data set from raw data')
 
     parse_stations()
-
+    merge_coordinates()
 
 
 if __name__ == '__main__':
