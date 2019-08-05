@@ -85,7 +85,6 @@ for i, row in lookup.iterrows():
         break
 
     else:
-        # check for 100 points in token similarity
         calc = current_stations.copy()
         calc['similarity'] = calc['Site name'].apply(
             lambda x: fuzz.token_set_ratio(x, location))
